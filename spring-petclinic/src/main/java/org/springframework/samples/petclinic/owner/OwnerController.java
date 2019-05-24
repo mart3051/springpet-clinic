@@ -51,30 +51,30 @@ class OwnerController {
         dataBinder.setDisallowedFields("id");
     }
 
-    @GetMapping("/owners/new")
+    @GetMapping("/customers/new")
     public String initCreationForm(Map<String, Object> model) {
         Owner owner = new Owner();
         model.put("owner", owner);
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/owners/new")
+    @PostMapping("/customers/new")
     public String processCreationForm(@Valid Owner owner, BindingResult result) {
         if (result.hasErrors()) {
             return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
         } else {
             this.owners.save(owner);
-            return "redirect:/owners/" + owner.getId();
+            return "redirect:/customers/" + owner.getId();
         }
     }
 
-    @GetMapping("/owners/find")
+    @GetMapping("/customers/find")
     public String initFindForm(Map<String, Object> model) {
         model.put("owner", new Owner());
         return "owners/findOwners";
     }
 
-    @GetMapping("/owners")
+    @GetMapping("/customers")
     public String processFindForm(Owner owner, BindingResult result, Map<String, Object> model) {
 
         // allow parameterless GET request for /owners to return all records
@@ -91,7 +91,7 @@ class OwnerController {
         } else if (results.size() == 1) {
             // 1 owner found
             owner = results.iterator().next();
-            return "redirect:/owners/" + owner.getId();
+            return "redirect:/customers/" + owner.getId();
         } else {
             // multiple owners found
             model.put("selections", results);
@@ -99,21 +99,21 @@ class OwnerController {
         }
     }
 
-    @GetMapping("/owners/{ownerId}/edit")
+    @GetMapping("/customers/{ownerId}/edit")
     public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
         Owner owner = this.owners.findById(ownerId);
         model.addAttribute(owner);
         return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
     }
 
-    @PostMapping("/owners/{ownerId}/edit")
+    @PostMapping("/customers/{ownerId}/edit")
     public String processUpdateOwnerForm(@Valid Owner owner, BindingResult result, @PathVariable("ownerId") int ownerId) {
         if (result.hasErrors()) {
             return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
         } else {
             owner.setId(ownerId);
             this.owners.save(owner);
-            return "redirect:/owners/{ownerId}";
+            return "redirect:/customers/{ownerId}";
         }
     }
 
@@ -123,7 +123,7 @@ class OwnerController {
      * @param ownerId the ID of the owner to display
      * @return a ModelMap with the model attributes for the view
      */
-    @GetMapping("/owners/{ownerId}")
+    @GetMapping("/customers/{ownerId}")
     public ModelAndView showOwner(@PathVariable("ownerId") int ownerId) {
         ModelAndView mav = new ModelAndView("owners/ownerDetails");
         mav.addObject(this.owners.findById(ownerId));

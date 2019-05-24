@@ -43,7 +43,7 @@ import org.springframework.samples.petclinic.model.Person;
  * @author Michael Isvy
  */
 @Entity
-@Table(name = "owners")
+@Table(name = "customer")
 public class Owner extends Person {
     @Column(name = "address")
     @NotEmpty
